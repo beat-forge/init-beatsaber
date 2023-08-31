@@ -2,6 +2,10 @@ name: "Initialize Beat Saber References"
 description: "A GitHub Action to initialize a stripped modding environment for use in GitHub Actions."
 author: "BeatForge"
 
+branding:
+  icon: "package"
+  color: "red"
+
 inputs:
   token:
     description: "The GitHub token to use for downloading the modding environment"
