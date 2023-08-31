@@ -35,7 +35,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install Dependencies
-        run: pnpm Install
+        run: pnpm install
 
       - name: Lint Code Base
         id: super-linter
