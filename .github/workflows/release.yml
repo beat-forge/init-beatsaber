@@ -1,0 +1,20 @@
+name: Automatic Versioning
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          token: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          package-name: "init-beatsaber"
+          release-type: node
