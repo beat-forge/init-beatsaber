@@ -9598,11 +9598,11 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 
 try {
     const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('token'));
+    const requestedVersion = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('version');
+    const referencesPath = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('path');
     const versionsRepo = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('repo').split('/');
     const owner = versionsRepo[3];
     const repo = versionsRepo[4];
-    const requestedVersion = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('version');
-    const refPath = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('path');
     const res = await octokit.rest.repos.getContent({
         owner,
         repo,
@@ -9623,7 +9623,14 @@ try {
     }
     const versionList = await exploreDirectory(octokit, owner, repo, `versions/${requestedVersion}`);
     for (const version of versionList) {
-        const versionPath = `${refPath}/${version.split('/').slice(2).join('/')}`; // Remove "versions/<version>" from the path
+        const versionPath = `${referencesPath}/${version
+            .split('/')
+            .slice(2)
+            .join('/')}`;
+        const remoteVersionPath = `https://raw.githubusercontent.com/${owner}/${repo}/main/versions/${requestedVersion}/${version
+            .split('/')
+            .slice(2)
+            .join('/')}`;
         try {
             await (0,fs_promises__WEBPACK_IMPORTED_MODULE_2__.access)(versionPath);
             console.log(`File ${versionPath} already exists, skipping`);
@@ -9632,7 +9639,8 @@ try {
         catch {
             /* empty */
         }
-        const versionRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/${versionPath}`);
+        console.log(`Downloading ${remoteVersionPath}`);
+        const versionRes = await fetch(remoteVersionPath);
         if (!versionRes.ok) {
             throw new Error(`Failed to get ${versionPath} from repo: ${versionRes.status}`);
         }

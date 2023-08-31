@@ -5,13 +5,12 @@ import { access, mkdir, writeFile } from 'fs/promises'
 
 try {
   const octokit = github.getOctokit(core.getInput('token'))
-  const versionsRepo = core.getInput('repo').split('/')
+  const requestedVersion = core.getInput('version')
+  const referencesPath = core.getInput('path')
 
+  const versionsRepo = core.getInput('repo').split('/')
   const owner = versionsRepo[3]
   const repo = versionsRepo[4]
-
-  const requestedVersion = core.getInput('version')
-  const refPath = core.getInput('path')
 
   const res = await octokit.rest.repos.getContent({
     owner,
@@ -42,7 +41,15 @@ try {
   )
 
   for (const version of versionList) {
-    const versionPath = `${refPath}/${version.split('/').slice(2).join('/')}` // Remove "versions/<version>" from the path
+    const versionPath = `${referencesPath}/${version
+      .split('/')
+      .slice(2)
+      .join('/')}`
+
+    const remoteVersionPath = `https://raw.githubusercontent.com/${owner}/${repo}/main/versions/${requestedVersion}/${version
+      .split('/')
+      .slice(2)
+      .join('/')}`
 
     try {
       await access(versionPath)
@@ -52,9 +59,8 @@ try {
       /* empty */
     }
 
-    const versionRes = await fetch(
-      `https://raw.githubusercontent.com/${owner}/${repo}/main/${versionPath}`
-    )
+    console.log(`Downloading ${remoteVersionPath}`)
+    const versionRes = await fetch(remoteVersionPath)
 
     if (!versionRes.ok) {
       throw new Error(
