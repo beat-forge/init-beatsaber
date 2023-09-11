@@ -18,13 +18,11 @@
     "node": ">=20"
   },
   "scripts": {
-    "bundle": "npm run format:write && npm run package",
+    "all": "bun run format:write && bun run package",
+    "package:node": "bun build --target=node ./src/index.ts --outfile=dist/index.js --minify",
+    "package:bun": "bun build --target=bun ./src/index.ts --outfile=dist/index.js --minify",
     "format:write": "prettier --write \"**/*.{ts,tsx}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx}\"",
-    "lint": "npx eslint . -c .eslintrc.yml",
-    "package": "ncc build src/index.ts --license licenses.txt",
-    "package:watch": "npm run package -- --watch",
-    "all": "npm run format:write && npm run lint && npm run package"
+    "bundle": "bun run format:write && bun run package:node"
   },
   "license": "AGPL-3.0",
   "dependencies": {
@@ -33,11 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
-    "@vercel/ncc": "^0.38.0",
-    "eslint": "^8.48.0",
-    "eslint-plugin-github": "^4.10.0",
+    "bun-types": "^1.0.1",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   }
