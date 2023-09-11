@@ -25,6 +25,8 @@ jobs:
       - name: tag and push subversions
         if: ${{ steps.release.outputs.releases_created }}
         run: |
+          git config --global user.email "ci@beatforge.net"
+          git config --global user.name "BeatForge CI"
           git tag -d v${{ steps.release.outputs.major }} || true
           git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
           git push origin :v${{ steps.release.outputs.major }} || true
