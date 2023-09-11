@@ -6,7 +6,7 @@ A GitHub Action to initialize a Beat Saber modding environment with stripped ref
 
 ```yaml
 - name: Initialize modding environment
-  uses: beat-forge/init-beatsaber@v1.1.0
+  uses: beat-forge/init-beatsaber@v1
   with:
     token: ${{ github.token }} # required
     version: 1.29.1 # required
