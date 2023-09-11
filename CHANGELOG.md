@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/beat-forge/init-beatsaber/compare/v1.2.0...v1.2.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* identify ci ([1ba2d92](https://github.com/beat-forge/init-beatsaber/commit/1ba2d9278107040a6a90be8217becfdb3224c967))
+
 ## [1.2.0](https://github.com/beat-forge/init-beatsaber/compare/v1.1.1...v1.2.0) (2023-09-11)
 
 
