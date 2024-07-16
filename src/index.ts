@@ -6,7 +6,6 @@ import { createWriteStream, existsSync, unlinkSync } from 'fs'
 import { pipeline } from 'stream'
 import { promisify } from 'util'
 import * as tar from 'tar'
-import fetch from 'node-fetch'
 
 const streamPipeline = promisify(pipeline)
 
@@ -21,7 +20,11 @@ async function downloadArchive(url: string, token: string, destination: string):
     throw new Error(`Failed to download archive: ${response.statusText}`)
   }
 
-  await streamPipeline(response.body, createWriteStream(destination))
+  if (response.body) {
+    await streamPipeline(response.body, createWriteStream(destination))
+  } else {
+    throw new Error('Response body is null')
+  }
 }
 
 async function extractArchive(filePath: string, extractPath: string): Promise<void> {
@@ -66,7 +69,6 @@ async function run(): Promise<void> {
 
     console.log(`Version ${requestedVersion} downloaded and extracted successfully`)
 
-    // Clean up the downloaded tarball file
     if (existsSync(tarballPath)) {
       unlinkSync(tarballPath)
     }

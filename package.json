@@ -26,13 +26,14 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1"
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^5.1.1",
+    "tar": "^7.4.0"
   },
   "devDependencies": {
-    "@types/node": "^20.5.7",
-    "bun-types": "^1.0.1",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "@types/node": "^20.14.10",
+    "bun-types": "^1.1.20",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.3"
   }
 }
