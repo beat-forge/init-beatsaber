@@ -9,7 +9,11 @@ import * as tar from 'tar'
 
 const streamPipeline = promisify(pipeline)
 
-async function downloadArchive(url: string, token: string, destination: string): Promise<void> {
+async function downloadArchive(
+  url: string,
+  token: string,
+  destination: string
+): Promise<void> {
   const response = await fetch(url, {
     headers: {
       Authorization: `token ${token}`
@@ -27,7 +31,10 @@ async function downloadArchive(url: string, token: string, destination: string):
   }
 }
 
-async function extractArchive(filePath: string, extractPath: string): Promise<void> {
+async function extractArchive(
+  filePath: string,
+  extractPath: string
+): Promise<void> {
   await tar.x({
     file: filePath,
     cwd: extractPath,
@@ -52,7 +59,9 @@ async function run(): Promise<void> {
 
     const [owner, repoName] = repo.split('/')
     if (!owner || !repoName) {
-      throw new Error('Repository input is invalid. Expected format {owner}/{repo}.')
+      throw new Error(
+        'Repository input is invalid. Expected format {owner}/{repo}.'
+      )
     }
 
     const branch = `version/${requestedVersion}`
@@ -67,7 +76,9 @@ async function run(): Promise<void> {
     console.log(`Extracting ${tarballPath}`)
     await extractArchive(tarballPath, referencesPath)
 
-    console.log(`Version ${requestedVersion} downloaded and extracted successfully`)
+    console.log(
+      `Version ${requestedVersion} downloaded and extracted successfully`
+    )
 
     if (existsSync(tarballPath)) {
       unlinkSync(tarballPath)
