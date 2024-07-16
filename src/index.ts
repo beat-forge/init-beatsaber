@@ -1,131 +1,83 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { access, mkdir, writeFile } from 'fs/promises'
+import { mkdir, access, constants } from 'fs/promises'
+import { createWriteStream, existsSync, unlinkSync } from 'fs'
+import { pipeline } from 'stream'
+import { promisify } from 'util'
+import * as tar from 'tar'
+import fetch from 'node-fetch'
 
-try {
-  const octokit = github.getOctokit(core.getInput('token'))
-  const requestedVersion = core.getInput('version')
-  const referencesPath = core.getInput('path')
+const streamPipeline = promisify(pipeline)
 
-  const versionsRepo = core.getInput('repo').split('/')
-  const owner = versionsRepo[3]
-  const repo = versionsRepo[4]
-
-  const res = await octokit.rest.repos.getContent({
-    owner,
-    repo,
-    path: 'versions'
+async function downloadArchive(url: string, token: string, destination: string): Promise<void> {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `token ${token}`
+    }
   })
 
-  if (res.status !== 200) {
-    throw new Error(`Failed to get versions from repo: ${res.status}`)
+  if (!response.ok) {
+    throw new Error(`Failed to download archive: ${response.statusText}`)
   }
 
-  let versions: string[] = []
-  if (Array.isArray(res.data) && res.data.every(item => 'name' in item)) {
-    versions = res.data.map((file: { name: string }) => file.name)
-  } else {
-    throw new Error('Unexpected response from GitHub API')
-  }
-
-  if (!versions.includes(requestedVersion)) {
-    throw new Error(`Version ${requestedVersion} does not exist`)
-  }
-
-  const versionList = await exploreDirectory(
-    octokit,
-    owner,
-    repo,
-    `versions/${requestedVersion}`
-  )
-
-  for (const version of versionList) {
-    const versionPath = `${referencesPath}/${version
-      .split('/')
-      .slice(2)
-      .join('/')}`
-
-    const remoteVersionPath = `https://raw.githubusercontent.com/${owner}/${repo}/main/versions/${requestedVersion}/${version
-      .split('/')
-      .slice(2)
-      .join('/')}`
-
-    try {
-      await access(versionPath)
-      console.log(`File ${versionPath} already exists, skipping`)
-      continue
-    } catch {
-      /* empty */
-    }
-
-    console.log(`Downloading ${remoteVersionPath}`)
-    const versionRes = await fetch(remoteVersionPath)
-
-    if (!versionRes.ok) {
-      throw new Error(
-        `Failed to get ${versionPath} from repo: ${versionRes.status}`
-      )
-    }
-
-    const content = await versionRes.arrayBuffer()
-    const buffer = Buffer.from(content)
-
-    await mkdir(versionPath.split('/').slice(0, -1).join('/'), {
-      recursive: true
-    })
-    await writeFile(versionPath, buffer)
-  }
-} catch (error) {
-  if (error instanceof Error) {
-    console.log(error.message)
-    core.setFailed(error.message)
-  } else {
-    core.setFailed('An unknown error occurred')
-  }
+  await streamPipeline(response.body, createWriteStream(destination))
 }
 
-async function exploreDirectory(
-  octokit: any,
-  owner: string,
-  repo: string,
-  path: string,
-  files: string[] = []
-): Promise<string[]> {
+async function extractArchive(filePath: string, extractPath: string): Promise<void> {
+  await tar.x({
+    file: filePath,
+    cwd: extractPath,
+    strip: 1
+  })
+}
+
+async function ensureDirectoryExists(path: string): Promise<void> {
   try {
-    const response = await octokit.rest.repos.getContent({
-      owner,
-      repo,
-      path
-    })
-
-    if (response.status !== 200) {
-      throw new Error(`Failed to get versions from repo: ${response.status}`)
-    }
-
-    if (Array.isArray(response.data)) {
-      for (const file of response.data) {
-        if (file.type === 'dir') {
-          await exploreDirectory(
-            octokit,
-            owner,
-            repo,
-            `${path}/${file.name}`,
-            files
-          )
-        } else {
-          files.push(`${path}/${file.name}`)
-        }
-      }
-    } else {
-      throw new Error(
-        'Expected an array of files, but received a different type of data'
-      )
-    }
-
-    return files
-  } catch (error) {
-    console.error(error)
-    throw error
+    await access(path, constants.F_OK)
+  } catch {
+    await mkdir(path, { recursive: true })
   }
 }
+
+async function run(): Promise<void> {
+  try {
+    const token = core.getInput('token', { required: true })
+    const requestedVersion = core.getInput('version', { required: true })
+    const referencesPath = core.getInput('path', { required: true })
+    const repo = core.getInput('repo', { required: true })
+
+    const [owner, repoName] = repo.split('/')
+    if (!owner || !repoName) {
+      throw new Error('Repository input is invalid. Expected format {owner}/{repo}.')
+    }
+
+    const branch = `version/${requestedVersion}`
+    const archiveUrl = `https://github.com/${owner}/${repoName}/archive/refs/heads/${branch}.tar.gz`
+    const tarballPath = `${referencesPath}/${branch}.tar.gz`
+
+    console.log(`Downloading ${archiveUrl}`)
+
+    await ensureDirectoryExists(referencesPath)
+    await downloadArchive(archiveUrl, token, tarballPath)
+
+    console.log(`Extracting ${tarballPath}`)
+    await extractArchive(tarballPath, referencesPath)
+
+    console.log(`Version ${requestedVersion} downloaded and extracted successfully`)
+
+    // Clean up the downloaded tarball file
+    if (existsSync(tarballPath)) {
+      unlinkSync(tarballPath)
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      core.error(error.message)
+      core.setFailed(error.message)
+    } else {
+      core.setFailed('An unknown error occurred')
+    }
+  }
+}
+
+run()
