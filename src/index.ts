@@ -38,7 +38,8 @@ async function extractArchive(
   await tar.x({
     file: filePath,
     cwd: extractPath,
-    strip: 1
+    strip: 1,
+    filter: (path) => path.includes('data/')
   })
 }
 
@@ -64,7 +65,7 @@ async function run(): Promise<void> {
       )
     }
 
-    const branch = `version/${requestedVersion}`
+    const branch = `versions/${requestedVersion}`
     const archiveUrl = `https://github.com/${owner}/${repoName}/archive/refs/heads/${branch}.tar.gz`
     const tarballPath = `${referencesPath}/${branch}.tar.gz`
 
