@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.3](https://github.com/beat-forge/init-beatsaber/compare/v1.4.2...v1.4.3) (2024-07-17)
+
+
+### Bug Fixes
+
+* bundling again again ([9bdf6c3](https://github.com/beat-forge/init-beatsaber/commit/9bdf6c3ca2c34f892d5aceb4d009b99fd6fcc254))
+* the final bundle ([1a81a58](https://github.com/beat-forge/init-beatsaber/commit/1a81a58447bbc7a318181aa1afa368ae2abb1fa6))
+* update bundle workflow to fetch full history ([0f2ad2f](https://github.com/beat-forge/init-beatsaber/commit/0f2ad2fc841d9e7c2bbbbc78b26149d3e6b934ae))
+* update release workflow to use RELEASE_GITHUB_TOKEN ([c7a6cad](https://github.com/beat-forge/init-beatsaber/commit/c7a6cad9f975b661dac33afcdfa0470d34121ee1))
+* who needs local CI testing right? ([fe1342f](https://github.com/beat-forge/init-beatsaber/commit/fe1342f85f8b763653c3aebce7f02e1c1cdb2e69))
+
 ## [1.4.2](https://github.com/beat-forge/init-beatsaber/compare/v1.4.1...v1.4.2) (2024-07-17)
 
 
