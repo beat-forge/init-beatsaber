@@ -46,6 +46,10 @@ jobs:
         run: |
           git config --global user.email "ci@beatforge.net"
           git config --global user.name "BeatForge CI"
-          git add .
-          git commit -m "chore: bundle update"
-          git push
+          if [[ `git status --porcelain` ]]; then
+            git add .
+            git commit -m "chore: bundle update"
+            git push
+          else
+            echo "No changes detected"
+          fi
