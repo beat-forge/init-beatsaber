@@ -46,7 +46,8 @@ jobs:
           git add dist/
           if [ -n "$(git status --porcelain)" ]; then
             echo "Detected uncommitted changes in dist/"
-            git commit -m "build: update dist"
+            git add bun.lockb
+            git commit -m "build: update dist and bun.lockb"
             git push
           else
             echo "No changes in dist/"
