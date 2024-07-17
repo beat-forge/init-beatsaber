@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/beat-forge/init-beatsaber/compare/v1.4.0...v1.4.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* force build ([9da0df6](https://github.com/beat-forge/init-beatsaber/commit/9da0df6a3d1473b7ac2c1caa7b2039d7909cc857))
+
 ## [1.4.0](https://github.com/beat-forge/init-beatsaber/compare/v1.3.0...v1.4.0) (2024-07-17)
 
 
