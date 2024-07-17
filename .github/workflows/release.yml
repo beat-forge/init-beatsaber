@@ -36,6 +36,24 @@ jobs:
         run: |
           bun install
 
+      - name: Trigger Bundle Update
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'Bundle Update.yml',
+              ref: context.ref
+            });
+
+      - name: Wait for Bundle Update
+        uses: jakejarvis/wait-action@v1
+        with:
+          workflow: "Bundle Update"
+          ref: ${{ github.sha }}
+          repo: ${{ github.repository }}
+
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
