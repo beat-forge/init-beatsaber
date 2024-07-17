@@ -36,18 +36,6 @@ jobs:
         run: |
           bun install
 
-      - name: Bundle with Bun
-        run: |
-          bun run bundle
-
-      - name: Commit and push bundled files
-        run: |
-          git config --global user.email "ci@beatforge.net"
-          git config --global user.name "BeatForge CI"
-          git add .
-          git commit -m "chore: bundle"
-          git push
-
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:

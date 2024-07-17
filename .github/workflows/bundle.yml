@@ -1,0 +1,50 @@
+name: Bundle Update
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: |
+          bun install
+
+      - name: Bundle with Bun
+        run: |
+          bun run bundle
+
+      - name: Commit and push bundled files
+        run: |
+          git config --global user.email "ci@beatforge.net"
+          git config --global user.name "BeatForge CI"
+          git add .
+          git commit -m "chore: bundle"
+          git push
