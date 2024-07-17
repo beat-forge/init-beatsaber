@@ -18,15 +18,31 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           package-name: "init-beatsaber"
           release-type: node
+
+      - name: Build and update dist
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          bun install
+          bun run bundle
+          git add dist/
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Detected changes in dist/"
+            git commit -m "build: update dist"
+            git push
+          else
+            echo "No changes in dist/"
+          fi
 
       - name: tag and push subversions
         if: ${{ steps.release.outputs.releases_created }}
         run: |
           git config --global user.email "ci@beatforge.net"
           git config --global user.name "BeatForge CI"
+          git fetch --tags
           git tag -d v${{ steps.release.outputs.major }} || true
           git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
           git push origin :v${{ steps.release.outputs.major }} || true

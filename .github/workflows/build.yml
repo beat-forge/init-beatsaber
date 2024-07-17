@@ -53,8 +53,9 @@ jobs:
             echo "No changes in dist/"
           fi
 
-      - uses: actions/upload-artifact@v3
-        if: ${{ failure() && steps.diff.outcome == 'failure' }}
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v3
+        if: ${{ always() }}
         with:
           name: dist
           path: dist/
