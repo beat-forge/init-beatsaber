@@ -44,6 +44,8 @@ jobs:
         run: |
           git config --global user.email "ci@beatforge.net"
           git config --global user.name "BeatForge CI"
+          BRANCH_NAME=${GITHUB_REF##*/}
+          git checkout $BRANCH_NAME
           git add .
           git diff-index --quiet HEAD || git commit -m "chore: bundle"
-          git push
+          git push origin $BRANCH_NAME
