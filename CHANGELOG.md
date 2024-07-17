@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/beat-forge/init-beatsaber/compare/v1.3.0...v1.4.0) (2024-07-17)
+
+
+### Features
+
+* add host flag for customizable git URL + refactor ([b3f3198](https://github.com/beat-forge/init-beatsaber/commit/b3f3198f38b5860d5f60355c67798da0572296ab))
+
+
+### Bug Fixes
+
+* regression in functionality vs documentation ([4f3ad6b](https://github.com/beat-forge/init-beatsaber/commit/4f3ad6b784d8c47c856d31f15e71fcbca8dd0869))
+
 ## [1.3.0](https://github.com/beat-forge/init-beatsaber/compare/v1.2.1...v1.3.0) (2024-07-17)
 
 
