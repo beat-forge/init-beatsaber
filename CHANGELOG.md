@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.2](https://github.com/beat-forge/init-beatsaber/compare/v1.4.1...v1.4.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* bundling ([a4d329d](https://github.com/beat-forge/init-beatsaber/commit/a4d329db7679c8981104f1bfc1435630e924b98b))
+* bundling again ([a30b6ab](https://github.com/beat-forge/init-beatsaber/commit/a30b6abf78c93d911c9834792ec5cec6771c4ac3))
+
 ## [1.4.1](https://github.com/beat-forge/init-beatsaber/compare/v1.4.0...v1.4.1) (2024-07-17)
 
 
