@@ -6,7 +6,6 @@ import { createWriteStream, existsSync, unlinkSync } from 'fs'
 import { pipeline } from 'stream'
 import { promisify } from 'util'
 import * as tar from 'tar'
-import fetch from 'node-fetch'
 
 const streamPipeline = promisify(pipeline)
 
