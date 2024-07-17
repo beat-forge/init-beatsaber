@@ -32,20 +32,20 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Build and update dist
+      - name: Install dependencies
         run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
           bun install
+
+      - name: Bundle with Bun
+        run: |
           bun run bundle
-          git add dist/
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "Detected changes in dist/"
-            git commit -m "build: update dist"
-            git push
-          else
-            echo "No changes in dist/"
-          fi
+
+      - name: Commit bundled files
+        run: |
+          git config --global user.email "ci@beatforge.net"
+          git config --global user.name "BeatForge CI"
+          git add .
+          git commit -m "chore: update dist files"
 
       - uses: google-github-actions/release-please-action@v3
         id: release
@@ -54,7 +54,7 @@ jobs:
           package-name: "init-beatsaber"
           release-type: node
 
-      - name: tag and push subversions
+      - name: Tag and push subversions
         if: ${{ steps.release.outputs.releases_created }}
         run: |
           git config --global user.email "ci@beatforge.net"
