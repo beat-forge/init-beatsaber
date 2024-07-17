@@ -39,7 +39,7 @@ async function extractArchive(
     file: filePath,
     cwd: extractPath,
     strip: 1,
-    filter: (path) => path.includes('data/')
+    filter: (path: string) => path.includes('data/')
   })
 }
 
@@ -65,21 +65,13 @@ async function run(): Promise<void> {
       )
     }
 
-    const branch = `versions/${requestedVersion}`
+    const branch = `version/${requestedVersion}`
     const archiveUrl = `https://github.com/${owner}/${repoName}/archive/refs/heads/${branch}.tar.gz`
     const tarballPath = `${referencesPath}/${branch}.tar.gz`
 
-    console.log(`Downloading ${archiveUrl}`)
-
     await ensureDirectoryExists(referencesPath)
     await downloadArchive(archiveUrl, token, tarballPath)
-
-    console.log(`Extracting ${tarballPath}`)
     await extractArchive(tarballPath, referencesPath)
-
-    console.log(
-      `Version ${requestedVersion} downloaded and extracted successfully`
-    )
 
     if (existsSync(tarballPath)) {
       unlinkSync(tarballPath)
