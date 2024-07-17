@@ -61,7 +61,7 @@ async function run(): Promise<void> {
   try {
     const token = core.getInput('token', { required: true });
     const requestedVersion = core.getInput('version', { required: true });
-    const referencesPath = core.getInput('path') || 'references';
+    const referencesPath = core.getInput('path') || './Refs';
     const repo = core.getInput('repo') || `beat-forge/beatsaber-stripped`;
     const host = core.getInput('host') || 'github.com';
 

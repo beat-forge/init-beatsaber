@@ -14,7 +14,7 @@ To quickly set up the modding environment, add the following step to your GitHub
     version: 1.29.1
 ```
 
-This will clone the stripped Beat Saber references for version `1.29.1` to the default path `./refrences`.
+This will clone the stripped Beat Saber references for version `1.29.1` to the default path `./Refs`.
 
 ## Inputs ⚙️
 
@@ -22,7 +22,7 @@ This will clone the stripped Beat Saber references for version `1.29.1` to the d
 | --------- | ------------------------------------------------------------ | -------- | ----------------------------------------------------------------------------------- |
 | `token`   | GitHub token for cloning the Beat Saber repository.          | Yes      | None                                                                                |
 | `version` | Version of Beat Saber for the modding environment.           | Yes      | None                                                                                |
-| `path`    | Path to clone the stripped Beat Saber references to.         | No       | `./references`                                                                      |
+| `path`    | Path to clone the stripped Beat Saber references to.         | No       | `./Refs`                                                                            |
 | `host`    | Host to clone the stripped Beat Saber references from.       | No       | `github.com`                                                                        |
 | `repo`    | Repository to clone the stripped Beat Saber references from. | No       | [`beat-forge/beatsaber-stripped`](https://github.com/beat-forge/beatsaber-stripped) |
 
