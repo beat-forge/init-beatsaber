@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -44,8 +46,6 @@ jobs:
         run: |
           git config --global user.email "ci@beatforge.net"
           git config --global user.name "BeatForge CI"
-          BRANCH_NAME=${GITHUB_REF##*/}
-          git checkout $BRANCH_NAME
           git add .
-          git diff-index --quiet HEAD || git commit -m "chore: bundle"
-          git push origin $BRANCH_NAME
+          git commit -m "chore: bundle update"
+          git push
