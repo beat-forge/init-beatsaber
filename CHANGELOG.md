@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.4](https://github.com/beat-forge/init-beatsaber/compare/v1.4.3...v1.4.4) (2024-07-17)
+
+
+### Bug Fixes
+
+* use native fetch ([30aa353](https://github.com/beat-forge/init-beatsaber/commit/30aa35394eddc842469e2f1ae64ba4b028545c5d))
+
 ## [1.4.3](https://github.com/beat-forge/init-beatsaber/compare/v1.4.2...v1.4.3) (2024-07-17)
 
 
