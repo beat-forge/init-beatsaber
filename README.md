@@ -11,7 +11,7 @@ To quickly set up the modding environment, add the following step to your GitHub
   uses: beat-forge/init-beatsaber@v1
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
-    version: 1.29.1
+    version: 1.37.1
 ```
 
 This will clone the stripped Beat Saber references for version `1.29.1` to the default path `./Refs`.
