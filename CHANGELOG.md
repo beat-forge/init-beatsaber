@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/beat-forge/init-beatsaber/compare/v1.2.1...v1.3.0) (2024-07-17)
+
+
+### Features
+
+* switch from file downloading to branch downloading ([31da1cd](https://github.com/beat-forge/init-beatsaber/commit/31da1cdd178cc22d7ef5ffc51b7fdcc101ebe29c))
+
+
+### Bug Fixes
+
+* update tar extraction to filter only 'data/' paths ([bd649f8](https://github.com/beat-forge/init-beatsaber/commit/bd649f83772e8f77c1dd6219a62402a3be75ccb0))
+* update tar extraction to filter only 'data/' paths and use `version` instead of `versions`. ([6c5ce9c](https://github.com/beat-forge/init-beatsaber/commit/6c5ce9c8ae497572b7ea5dc985ff431549bb9ae8))
+
 ## [1.2.1](https://github.com/beat-forge/init-beatsaber/compare/v1.2.0...v1.2.1) (2023-09-11)
 
 
