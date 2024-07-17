@@ -15,12 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: google-github-actions/release-please-action@v3
-        id: release
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          package-name: "init-beatsaber"
-          release-type: node
+          node-version: '20'
+
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
 
       - name: Build and update dist
         run: |
@@ -36,6 +46,13 @@ jobs:
           else
             echo "No changes in dist/"
           fi
+
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          package-name: "init-beatsaber"
+          release-type: node
 
       - name: tag and push subversions
         if: ${{ steps.release.outputs.releases_created }}
