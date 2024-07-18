@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/beat-forge/init-beatsaber/compare/v1.5.2...v1.6.0) (2024-07-18)
+
+
+### Features
+
+* infer Beat Saber version from manifest.json if not specified ([de0df7d](https://github.com/beat-forge/init-beatsaber/commit/de0df7dd419968115b6a4d18266dd0983ca40f68))
+
 ## [1.5.2](https://github.com/beat-forge/init-beatsaber/compare/v1.5.1...v1.5.2) (2024-07-18)
 
 
