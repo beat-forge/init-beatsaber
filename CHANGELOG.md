@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2](https://github.com/beat-forge/init-beatsaber/compare/v1.5.1...v1.5.2) (2024-07-18)
+
+
+### Bug Fixes
+
+* proper moveContents call ([11a58fd](https://github.com/beat-forge/init-beatsaber/commit/11a58fd7ed1db9043904db379afc895eb6698d38))
+
 ## [1.5.1](https://github.com/beat-forge/init-beatsaber/compare/v1.5.0...v1.5.1) (2024-07-18)
 
 
