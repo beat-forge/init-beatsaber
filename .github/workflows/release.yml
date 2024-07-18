@@ -57,6 +57,7 @@ jobs:
             git push origin HEAD:${{ github.event.pull_request.head.ref }}
           else
             echo "No changes to commit"
+          fi
 
       - name: Release Please
         uses: google-github-actions/release-please-action@v3
