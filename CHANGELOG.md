@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.4.6](https://github.com/beat-forge/init-beatsaber/compare/v1.4.5...v1.4.6) (2024-07-18)
+
+
+### Bug Fixes
+
+* checkout ([ac73884](https://github.com/beat-forge/init-beatsaber/commit/ac738845a309c968b80843b6d4ff012da0c13b52))
+* fetch all branches from `origin` ([fcbd32e](https://github.com/beat-forge/init-beatsaber/commit/fcbd32e73926a16837c5e5ccc5c04acc4a46c537))
+* remove unused github (fix for force release) ([123c72a](https://github.com/beat-forge/init-beatsaber/commit/123c72afd188944f4f533fc3bd88d874d262d6cb))
+* slight rewrite, should download properly now. ([68c8af6](https://github.com/beat-forge/init-beatsaber/commit/68c8af6f90af3a1432cf811d485c6316e185e44c))
+* update release workflow to include git pull before pushing changes ([b7c1db4](https://github.com/beat-forge/init-beatsaber/commit/b7c1db4f2d7958f9ef6e80c4ff1233ed41c6cf28))
+
 ## [1.4.5](https://github.com/beat-forge/init-beatsaber/compare/v1.4.4...v1.4.5) (2024-07-18)
 
 
