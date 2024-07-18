@@ -69,7 +69,9 @@ async function extractTarball(
       }
     })
   } catch (error) {
-    core.error(`Failed to extract tarball from ${tarballPath} to ${extractPath}`)
+    core.error(
+      `Failed to extract tarball from ${tarballPath} to ${extractPath}`
+    )
     core.error(`Error details: ${error}`)
     throw error
   }
