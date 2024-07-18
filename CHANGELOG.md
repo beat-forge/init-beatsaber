@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/beat-forge/init-beatsaber/compare/v1.6.0...v1.6.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* remove BOM from `manifest.json` if present ([51e47f0](https://github.com/beat-forge/init-beatsaber/commit/51e47f0312b8c8abd407bb3904d894aaf64031ef))
+
 ## [1.6.0](https://github.com/beat-forge/init-beatsaber/compare/v1.5.2...v1.6.0) (2024-07-18)
 
 
