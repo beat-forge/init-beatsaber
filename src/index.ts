@@ -70,7 +70,9 @@ async function moveContents(srcDir: string, destDir: string): Promise<void> {
       }
     }
   } catch (error) {
-    core.error(`Failed to move contents from ${srcDir} to ${destDir} - ${error}`)
+    core.error(
+      `Failed to move contents from ${srcDir} to ${destDir} - ${error}`
+    )
     throw error
   }
 }
