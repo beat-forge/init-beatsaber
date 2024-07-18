@@ -130,8 +130,12 @@ async function run(): Promise<void> {
     )
 
     if (!requestedVersion) {
-      core.info('No version specified. Attempting to infer version from manifest.json...')
-      const manifestFile = manifestPath ? resolve(manifestPath) : await findManifest(process.cwd())
+      core.info(
+        'No version specified. Attempting to infer version from manifest.json...'
+      )
+      const manifestFile = manifestPath
+        ? resolve(manifestPath)
+        : await findManifest(process.cwd())
       if (manifestFile) {
         core.info(`Found manifest.json at ${manifestFile}`)
         const manifest = JSON.parse(await fs.readFile(manifestFile, 'utf8'))
