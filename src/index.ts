@@ -64,7 +64,7 @@ async function extractTarball(
   core.info(`Listing contents of tarball: ${tarballPath}`)
   await tar.t({
     file: tarballPath,
-    onentry: entry => {
+    onReadEntry: entry => {
       core.info(`Tarball entry: ${entry.path}`)
     }
   })
