@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/beat-forge/init-beatsaber/compare/v1.5.0...v1.5.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* only use `data` ([e5b5c35](https://github.com/beat-forge/init-beatsaber/commit/e5b5c35ebd14d63fb84cf66dc4a735edb60c81b6))
+
 ## [1.5.0](https://github.com/beat-forge/init-beatsaber/compare/v1.4.13...v1.5.0) (2024-07-18)
 
 
