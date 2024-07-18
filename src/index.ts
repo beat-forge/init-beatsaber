@@ -58,22 +58,22 @@ async function extractTarball(
   extractPath: string
 ): Promise<void> {
   core.info(`Extracting tarball from ${tarballPath} to ${extractPath}`)
-  await fs.mkdir(extractPath, { recursive: true })
-  core.info(`Directory created for extraction: ${extractPath}`)
-
-  core.info(`Listing contents of tarball: ${tarballPath}`)
-  await tar.t({
-    file: tarballPath,
-    onReadEntry: entry => {
-      core.info(`Tarball entry: ${entry.path}`)
-    }
-  })
-
-  await tar.x({
-    file: tarballPath,
-    cwd: extractPath
-  })
-  core.info('Extraction completed successfully')
+  try {
+    await fs.mkdir(extractPath, { recursive: true })
+    await tar.extract({
+      file: tarballPath,
+      cwd: extractPath,
+      filter: path => {
+        const segments = path.split('/')
+        return segments.length > 1 && segments[1] === 'data'
+      }
+    })
+  } catch (error) {
+    core.error(`Failed to extract tarball from ${tarballPath} to ${extractPath}`)
+    core.error(`Error details: ${error}`)
+    throw error
+  }
+  core.info('Tarball extraction completed successfully')
 }
 
 async function moveContents(srcDir: string, destDir: string): Promise<void> {
@@ -126,37 +126,22 @@ async function run(): Promise<void> {
 
     const branch = `version/${requestedVersion}`
     const archiveUrl = `https://${host}/${owner}/${repoName}/archive/refs/heads/${branch}.tar.gz`
-    const tarballPath = `./${repoName}-${branch}.tar.gz`
-    const extractPath = `./${repoName}-${branch}`
+    const tarballPath = resolve('archive.tar.gz')
+    const extractPath = resolve('extract')
     const refsPath = resolve(referencesPath)
 
-    core.info(
-      `Calculated paths: archiveUrl=${archiveUrl}, tarballPath=${tarballPath}, extractPath=${extractPath}, refsPath=${refsPath}`
-    )
+    core.info(`Archive URL: ${archiveUrl}`)
+    core.info(`Tarball path: ${tarballPath}`)
+    core.info(`Extract path: ${extractPath}`)
+    core.info(`References path: ${refsPath}`)
 
-    const files = await fs.readdir('.')
-    core.info(`${process.cwd()} contents: ${files.join(', ')}`)
-
-    core.info(`Downloading ${archiveUrl} to ${tarballPath}...`)
     await downloadFile(archiveUrl, tarballPath, token)
-
-    core.info(`Extracting ${tarballPath} to ${extractPath}...`)
     await extractTarball(tarballPath, extractPath)
-
-    core.info(
-      `Moving 'data' folder contents from ${extractPath} to ${refsPath}...`
-    )
     await moveContents(join(extractPath, 'data'), refsPath)
 
-    core.info('Cleaning up...')
-    await fs.rm(tarballPath)
-    await fs.rm(extractPath, { recursive: true })
-    core.info('Cleanup completed successfully')
+    core.info('Beat Saber references initialized successfully')
   } catch (error) {
-    core.error(`An error occurred: ${error}`)
-    core.setFailed(
-      error instanceof Error ? error.message : 'An unknown error occurred'
-    )
+    core.setFailed(`Action failed with error: ${error}`)
   }
 }
 
