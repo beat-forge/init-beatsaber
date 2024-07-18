@@ -19,9 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -52,12 +50,15 @@ jobs:
           git config --global user.email "ci@beatforge.net"
           git config --global user.name "BeatForge CI"
           
+          # Check out the branch
+          git checkout ${{ github.event.pull_request.head.ref }}
+          
           # Check if there are any changes
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "chore: bundle update"
             # Pull changes from the remote repository to avoid conflicts
-            git pull --rebase
+            git pull --rebase origin ${{ github.event.pull_request.head.ref }}
             git push origin HEAD:${{ github.event.pull_request.head.ref }}
           else
             echo "No changes to commit"
@@ -82,15 +83,4 @@ jobs:
           # Delete local tags if they exist
           git tag -d v${{ steps.release.outputs.major }} || true
           git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
-
-          # Delete remote tags if they exist
-          git push origin :v${{ steps.release.outputs.major }} || true
-          git push origin :v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
-
-          # Create new tags
-          git tag -a v${{ steps.release.outputs.major }} -m "Release v${{ steps.release.outputs.major }}"
-          git tag -a v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} -m "Release v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}"
-
-          # Push new tags
-          git push origin v${{ steps.release.outputs.major }}
-          git push origin v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}
+          
