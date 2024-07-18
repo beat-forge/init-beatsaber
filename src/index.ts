@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as core from '@actions/core'
-import * as github from '@actions/github'
 import { mkdir, access, constants } from 'fs/promises'
 import { createWriteStream, existsSync, unlinkSync } from 'fs'
 import { pipeline } from 'stream'
