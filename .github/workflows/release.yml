@@ -50,9 +50,12 @@ jobs:
           git config --global user.email "ci@beatforge.net"
           git config --global user.name "BeatForge CI"
           
+          # Fetch all branches
+          git fetch origin
+
           # Check out the branch
           git checkout ${{ github.event.pull_request.head.ref }}
-          
+
           # Check if there are any changes
           if [ -n "$(git status --porcelain)" ]; then
             git add .
@@ -83,4 +86,15 @@ jobs:
           # Delete local tags if they exist
           git tag -d v${{ steps.release.outputs.major }} || true
           git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
-          
+
+          # Delete remote tags if they exist
+          git push origin :v${{ steps.release.outputs.major }} || true
+          git push origin :v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
+
+          # Create new tags
+          git tag -a v${{ steps.release.outputs.major }} -m "Release v${{ steps.release.outputs.major }}"
+          git tag -a v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} -m "Release v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}"
+
+          # Push new tags
+          git push origin v${{ steps.release.outputs.major }}
+          git push origin v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}
