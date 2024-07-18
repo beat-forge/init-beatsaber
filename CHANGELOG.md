@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.5](https://github.com/beat-forge/init-beatsaber/compare/v1.4.4...v1.4.5) (2024-07-18)
+
+
+### Bug Fixes
+
+* I'm gonna bundle myself in a minute if this doesn't work ([2a2cc20](https://github.com/beat-forge/init-beatsaber/commit/2a2cc2042bbdf41609fdac5be462259bc24bc5c3))
+* witchcraft ([f028bf6](https://github.com/beat-forge/init-beatsaber/commit/f028bf64449eb04d51b3c16a96525203791a1a25))
+
 ## [1.4.4](https://github.com/beat-forge/init-beatsaber/compare/v1.4.3...v1.4.4) (2024-07-17)
 
 
