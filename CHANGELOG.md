@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.7](https://github.com/beat-forge/init-beatsaber/compare/v1.4.6...v1.4.7) (2024-07-18)
+
+
+### Bug Fixes
+
+* ensure the directory is created properly ([07966dd](https://github.com/beat-forge/init-beatsaber/commit/07966dd279a16d6ecbf37c563aca038ebb5e65fb))
+
 ## [1.4.6](https://github.com/beat-forge/init-beatsaber/compare/v1.4.5...v1.4.6) (2024-07-18)
 
 
