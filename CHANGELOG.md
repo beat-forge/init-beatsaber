@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.4.13](https://github.com/beat-forge/init-beatsaber/compare/v1.4.12...v1.4.13) (2024-07-18)
-
-
-### Bug Fixes
-
-* response headers logging ([3a1c7f8](https://github.com/beat-forge/init-beatsaber/commit/3a1c7f8d370c3e4ba5a05ed8449ca2e90350e7ee))
-
 ## [1.4.12](https://github.com/beat-forge/init-beatsaber/compare/v1.4.11...v1.4.12) (2024-07-18)
 
 
