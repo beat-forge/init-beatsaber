@@ -44,20 +44,19 @@ jobs:
       - name: Run bundle
         run: bun run bundle
 
-    - name: Commit bundle results
-      if: github.event_name == 'pull_request'
-      run: |
-        git config --global user.email "ci@beatforge.net"
-        git config --global user.name "BeatForge CI"
-        
-        # Check if there are any changes
-        if [ -n "$(git status --porcelain)" ]; then
-          git add .
-          git commit -m "chore: bundle update"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
-        else
-          echo "No changes to commit"
-        fi
+      - name: Commit bundle results
+        if: github.event_name == 'pull_request'
+        run: |
+          git config --global user.email "ci@beatforge.net"
+          git config --global user.name "BeatForge CI"
+          
+          # Check if there are any changes
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore: bundle update"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          else
+            echo "No changes to commit"
 
       - name: Release Please
         uses: google-github-actions/release-please-action@v3
