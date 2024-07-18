@@ -88,6 +88,9 @@ async function run(): Promise<void> {
     const tarballPath = `./${repoName}-${branch}.tar.gz`
     const extractPath = `./${repoName}-${branch}`
 
+    core.info(`Creating directory ${extractPath}...`)
+    await fs.mkdir(extractPath, { recursive: true })
+
     core.info(`Downloading ${archiveUrl}...`)
     await downloadFile(archiveUrl, tarballPath, token)
 
