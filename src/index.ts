@@ -3,7 +3,6 @@ import { promises as fs, createWriteStream } from 'fs'
 import { dirname, join, resolve } from 'path'
 import * as tar from 'tar'
 
-
 async function downloadFile(
   url: string,
   outputPath: string,
@@ -72,7 +71,9 @@ async function moveContents(srcDir: string, destDir: string): Promise<void> {
       }
     }
   } catch (error) {
-    core.error(`Failed to move contents from ${srcDir} to ${destDir} - ${error}`)
+    core.error(
+      `Failed to move contents from ${srcDir} to ${destDir} - ${error}`
+    )
     throw error
   }
 }
