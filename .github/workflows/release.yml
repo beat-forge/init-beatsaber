@@ -19,7 +19,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
+          
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -54,6 +56,8 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git add .
             git commit -m "chore: bundle update"
+            # Pull changes from the remote repository to avoid conflicts
+            git pull --rebase
             git push origin HEAD:${{ github.event.pull_request.head.ref }}
           else
             echo "No changes to commit"
