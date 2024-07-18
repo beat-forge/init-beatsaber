@@ -100,19 +100,48 @@ async function moveContents(srcDir: string, destDir: string): Promise<void> {
   core.info('Content move completed successfully')
 }
 
+async function findManifest(dir: string): Promise<string | null> {
+  const files = await fs.readdir(dir, { withFileTypes: true })
+  for (const file of files) {
+    const fullPath = join(dir, file.name)
+    if (file.isDirectory()) {
+      const manifest = await findManifest(fullPath)
+      if (manifest) return manifest
+    } else if (file.name === 'manifest.json') {
+      return fullPath
+    }
+  }
+  return null
+}
+
 async function run(): Promise<void> {
   try {
     core.info('Initializing Beat Saber references...')
 
     const token = core.getInput('token', { required: true })
-    const requestedVersion = core.getInput('version', { required: true })
+    const manifestPath = core.getInput('manifest')
+    let requestedVersion = core.getInput('version')
     const referencesPath = core.getInput('path') || './Refs'
     const repo = core.getInput('repo') || 'beat-forge/beatsaber-stripped'
     const host = core.getInput('host') || 'github.com'
 
     core.info(
-      `Inputs: token=${token}, version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}`
+      `Inputs: version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}, manifest=${manifestPath}`
     )
+
+    if (!requestedVersion) {
+      core.info('No version specified. Attempting to infer version from manifest.json...')
+      const manifestFile = manifestPath ? resolve(manifestPath) : await findManifest(process.cwd())
+      if (manifestFile) {
+        core.info(`Found manifest.json at ${manifestFile}`)
+        const manifest = JSON.parse(await fs.readFile(manifestFile, 'utf8'))
+        requestedVersion = manifest.gameVersion
+        core.info(`Inferred version: ${requestedVersion}`)
+      } else {
+        core.error('No manifest.json found and no version specified.')
+        throw new Error('No manifest.json found and no version specified.')
+      }
+    }
 
     const [owner, repoName] = repo.split('/')
     if (!owner || !repoName) {

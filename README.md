@@ -11,20 +11,20 @@ To quickly set up the modding environment, add the following step to your GitHub
   uses: beat-forge/init-beatsaber@v1
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
-    version: 1.37.1
 ```
 
-This will clone the stripped Beat Saber references for version `1.29.1` to the default path `./Refs`.
+This will clone the stripped Beat Saber references to the default path `./Refs` and infer the Beat Saber version from your `manifest.json` file.
 
 ## Inputs ⚙️
 
-| Name      | Description                                                  | Required | Default                                                                             |
-| --------- | ------------------------------------------------------------ | -------- | ----------------------------------------------------------------------------------- |
-| `token`   | GitHub token for cloning the Beat Saber repository.          | Yes      | None                                                                                |
-| `version` | Version of Beat Saber for the modding environment.           | Yes      | None                                                                                |
-| `path`    | Path to clone the stripped Beat Saber references to.         | No       | `./Refs`                                                                            |
-| `host`    | Host to clone the stripped Beat Saber references from.       | No       | `github.com`                                                                        |
-| `repo`    | Repository to clone the stripped Beat Saber references from. | No       | [`beat-forge/beatsaber-stripped`](https://github.com/beat-forge/beatsaber-stripped) |
+| Name       | Description                                                                                                                  | Required | Default                                                                             |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------------------- |
+| `token`    | GitHub token for cloning the Beat Saber repository.                                                                          | Yes      | None                                                                                |
+| `version`  | Version of Beat Saber for the modding environment. If not specified, the action will try to infer it from a `manifest.json`. | No       | None                                                                                |
+| `manifest` | Path to a specific `manifest.json` file for version inference. If not provided, the action will search recursively.          | No       | None                                                                                |
+| `path`     | Path to clone the stripped Beat Saber references to.                                                                         | No       | `./Refs`                                                                            |
+| `host`     | Host to clone the stripped Beat Saber references from.                                                                       | No       | `github.com`                                                                        |
+| `repo`     | Repository to clone the stripped Beat Saber references from.                                                                 | No       | [`beat-forge/beatsaber-stripped`](https://github.com/beat-forge/beatsaber-stripped) |
 
 ## Contributing 🤝
 
