@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.11](https://github.com/beat-forge/init-beatsaber/compare/v1.4.10...v1.4.11) (2024-07-18)
+
+
+### Bug Fixes
+
+* use the `data` directory ([97ab249](https://github.com/beat-forge/init-beatsaber/commit/97ab2494c3e1f3bd8dbaa635ceb13980bfc9fea6))
+
 ## [1.4.10](https://github.com/beat-forge/init-beatsaber/compare/v1.4.9...v1.4.10) (2024-07-18)
 
 
