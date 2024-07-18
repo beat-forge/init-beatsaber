@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.8](https://github.com/beat-forge/init-beatsaber/compare/v1.4.7...v1.4.8) (2024-07-18)
+
+
+### Bug Fixes
+
+* update dist damn it ([3dda875](https://github.com/beat-forge/init-beatsaber/commit/3dda8757dd3193110a37ae720a5982f8dd3f45ef))
+
 ## [1.4.7](https://github.com/beat-forge/init-beatsaber/compare/v1.4.6...v1.4.7) (2024-07-18)
 
 
