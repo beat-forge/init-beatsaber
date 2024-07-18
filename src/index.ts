@@ -112,12 +112,16 @@ async function run(): Promise<void> {
     const repo = core.getInput('repo') || 'beat-forge/beatsaber-stripped'
     const host = core.getInput('host') || 'github.com'
 
-    core.info(`Inputs: token=${token}, version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}`)
+    core.info(
+      `Inputs: token=${token}, version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}`
+    )
 
     const [owner, repoName] = repo.split('/')
     if (!owner || !repoName) {
       core.error('Repository input is invalid. Expected format {owner}/{repo}.')
-      throw new Error('Repository input is invalid. Expected format {owner}/{repo}.')
+      throw new Error(
+        'Repository input is invalid. Expected format {owner}/{repo}.'
+      )
     }
 
     const branch = `version/${requestedVersion}`
@@ -126,7 +130,9 @@ async function run(): Promise<void> {
     const extractPath = `./${repoName}-${branch}`
     const refsPath = resolve(referencesPath)
 
-    core.info(`Calculated paths: archiveUrl=${archiveUrl}, tarballPath=${tarballPath}, extractPath=${extractPath}, refsPath=${refsPath}`)
+    core.info(
+      `Calculated paths: archiveUrl=${archiveUrl}, tarballPath=${tarballPath}, extractPath=${extractPath}, refsPath=${refsPath}`
+    )
 
     const files = await fs.readdir('.')
     core.info(`${process.cwd()} contents: ${files.join(', ')}`)
@@ -137,7 +143,9 @@ async function run(): Promise<void> {
     core.info(`Extracting ${tarballPath} to ${extractPath}...`)
     await extractTarball(tarballPath, extractPath)
 
-    core.info(`Moving 'data' folder contents from ${extractPath} to ${refsPath}...`)
+    core.info(
+      `Moving 'data' folder contents from ${extractPath} to ${refsPath}...`
+    )
     await moveContents(join(extractPath, 'data'), refsPath)
 
     core.info('Cleaning up...')
