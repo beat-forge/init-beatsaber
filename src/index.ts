@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
-import { promises as fs } from 'fs'
-import { join, resolve } from 'path'
-import { createWriteStream } from 'fs'
+import { promises as fs, createWriteStream } from 'fs'
+import { dirname, join, resolve } from 'path'
 import * as tar from 'tar'
+
 
 async function downloadFile(
   url: string,
@@ -22,6 +22,8 @@ async function downloadFile(
   if (!response.ok) {
     throw new Error(`Failed to download file: ${response.statusText}`)
   }
+
+  await fs.mkdir(dirname(outputPath), { recursive: true })
 
   const fileStream = createWriteStream(outputPath)
   const reader = response.body?.getReader()
@@ -70,15 +72,15 @@ async function moveContents(srcDir: string, destDir: string): Promise<void> {
       }
     }
   } catch (error) {
-    core.error(
-      `Failed to move contents from ${srcDir} to ${destDir} - ${error}`
-    )
+    core.error(`Failed to move contents from ${srcDir} to ${destDir} - ${error}`)
     throw error
   }
 }
 
 async function run(): Promise<void> {
   try {
+    core.info('Initializing Beat Saber references...')
+
     const token = core.getInput('token', { required: true })
     const requestedVersion = core.getInput('version', { required: true })
     const referencesPath = core.getInput('path') || './Refs'
@@ -97,6 +99,12 @@ async function run(): Promise<void> {
     const tarballPath = `./${repoName}-${branch}.tar.gz`
     const extractPath = `./${repoName}-${branch}`
     const refsPath = resolve(referencesPath)
+
+    const files = await fs.readdir('.')
+    core.info(`${process.cwd()} contents:`)
+    for (const file of files) {
+      core.info(file)
+    }
 
     core.info(`Downloading ${archiveUrl} to ${tarballPath}...`)
     await downloadFile(archiveUrl, tarballPath, token)
