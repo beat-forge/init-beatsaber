@@ -1,7 +1,7 @@
 {
   "name": "init-beatsaber",
   "description": "A GitHub Action to initialize a Beat Saber modding environment",
-  "version": "1.4.12",
+  "version": "1.4.13",
   "author": "BeatForge",
   "private": true,
   "type": "module",
