@@ -26,7 +26,7 @@ async function downloadFile(
   }
 
   core.info(`Response status: ${response.status}`)
-  core.info(`Response headers: ${JSON.stringify(response.headers.raw())}`)
+  core.info(`Response headers: ${JSON.stringify([...response.headers])}`)
 
   await fs.mkdir(dirname(outputPath), { recursive: true })
   core.info(`Directory created for output path: ${dirname(outputPath)}`)
