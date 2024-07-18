@@ -46,6 +46,8 @@ async function extractTarball(
   tarballPath: string,
   extractPath: string
 ): Promise<void> {
+  await fs.mkdir(extractPath, { recursive: true })
+
   await tar.x({
     file: tarballPath,
     cwd: extractPath
@@ -53,18 +55,23 @@ async function extractTarball(
 }
 
 async function moveContents(srcDir: string, destDir: string): Promise<void> {
-  const files = await fs.readdir(srcDir, { withFileTypes: true })
+  try {
+    await fs.mkdir(destDir, { recursive: true })
+    const files = await fs.readdir(srcDir, { withFileTypes: true })
 
-  for (const file of files) {
-    const srcPath = join(srcDir, file.name)
-    const destPath = join(destDir, file.name)
+    for (const file of files) {
+      const srcPath = join(srcDir, file.name)
+      const destPath = join(destDir, file.name)
 
-    if (file.isDirectory()) {
-      await fs.mkdir(destPath, { recursive: true })
-      await moveContents(srcPath, destPath)
-    } else {
-      await fs.copyFile(srcPath, destPath)
+      if (file.isDirectory()) {
+        await moveContents(srcPath, destPath)
+      } else {
+        await fs.copyFile(srcPath, destPath)
+      }
     }
+  } catch (error) {
+    core.error(`Failed to move contents from ${srcDir} to ${destDir} - ${error}`)
+    throw error
   }
 }
 
@@ -87,18 +94,20 @@ async function run(): Promise<void> {
     const archiveUrl = `https://${host}/${owner}/${repoName}/archive/refs/heads/${branch}.tar.gz`
     const tarballPath = `./${repoName}-${branch}.tar.gz`
     const extractPath = `./${repoName}-${branch}`
+    const refsPath = resolve(referencesPath)
 
-    core.info(`Creating directory ${extractPath}...`)
-    await fs.mkdir(extractPath, { recursive: true })
-
-    core.info(`Downloading ${archiveUrl}...`)
+    core.info(`Downloading ${archiveUrl} to ${tarballPath}...`)
     await downloadFile(archiveUrl, tarballPath, token)
 
-    core.info(`Extracting ${tarballPath}...`)
-    await extractTarball(tarballPath, './')
+    core.info(`Extracting ${tarballPath} to ${extractPath}...`)
+    await extractTarball(tarballPath, extractPath)
 
-    const dataPath = join(extractPath, 'data')
-    await moveContents(dataPath, referencesPath)
+    core.info(`Moving contents from ${extractPath} to ${refsPath}...`)
+    await moveContents(extractPath, refsPath)
+
+    core.info('Cleaning up...')
+    await fs.rm(tarballPath)
+    await fs.rm(extractPath, { recursive: true })
   } catch (error) {
     core.setFailed(
       error instanceof Error ? error.message : 'An unknown error occurred'
