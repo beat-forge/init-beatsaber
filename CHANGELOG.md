@@ -1,5 +1,55 @@
 # Changelog
 
+## [1.5.0](https://github.com/beat-forge/init-beatsaber/compare/v1.4.13...v1.5.0) (2024-07-18)
+
+
+### Features
+
+* add host flag for customizable git URL + refactor ([b3f3198](https://github.com/beat-forge/init-beatsaber/commit/b3f3198f38b5860d5f60355c67798da0572296ab))
+* init ([f323b53](https://github.com/beat-forge/init-beatsaber/commit/f323b535ec0c9f308447bc97e294cb4bca1d54cd))
+* switch from file downloading to branch downloading ([31da1cd](https://github.com/beat-forge/init-beatsaber/commit/31da1cdd178cc22d7ef5ffc51b7fdcc101ebe29c))
+
+
+### Bug Fixes
+
+* `checkout` ([8879ee4](https://github.com/beat-forge/init-beatsaber/commit/8879ee41e3ef324bb989f71e4af22461c7fd8f90))
+* bundling ([a4d329d](https://github.com/beat-forge/init-beatsaber/commit/a4d329db7679c8981104f1bfc1435630e924b98b))
+* bundling again ([a30b6ab](https://github.com/beat-forge/init-beatsaber/commit/a30b6abf78c93d911c9834792ec5cec6771c4ac3))
+* bundling again again ([9bdf6c3](https://github.com/beat-forge/init-beatsaber/commit/9bdf6c3ca2c34f892d5aceb4d009b99fd6fcc254))
+* checkout ([ac73884](https://github.com/beat-forge/init-beatsaber/commit/ac738845a309c968b80843b6d4ff012da0c13b52))
+* ensure the directories are actually created. ([c07ef2c](https://github.com/beat-forge/init-beatsaber/commit/c07ef2c78a315abd39837c6d415ec84643bc8c0f))
+* ensure the directory is created properly ([07966dd](https://github.com/beat-forge/init-beatsaber/commit/07966dd279a16d6ecbf37c563aca038ebb5e65fb))
+* fetch all branches from `origin` ([fcbd32e](https://github.com/beat-forge/init-beatsaber/commit/fcbd32e73926a16837c5e5ccc5c04acc4a46c537))
+* force build ([9da0df6](https://github.com/beat-forge/init-beatsaber/commit/9da0df6a3d1473b7ac2c1caa7b2039d7909cc857))
+* I'm gonna bundle myself in a minute if this doesn't work ([2a2cc20](https://github.com/beat-forge/init-beatsaber/commit/2a2cc2042bbdf41609fdac5be462259bc24bc5c3))
+* identify ci ([1ba2d92](https://github.com/beat-forge/init-beatsaber/commit/1ba2d9278107040a6a90be8217becfdb3224c967))
+* just a bump to release the action ([2ada7b9](https://github.com/beat-forge/init-beatsaber/commit/2ada7b9de7bd19371f590a4abea44b51655fc9e2))
+* log EVERYTHING for debugging. ([5c700a0](https://github.com/beat-forge/init-beatsaber/commit/5c700a0414289fdca30b5f7b85f1e872a2692a75))
+* mkdir + debugging ([a4df869](https://github.com/beat-forge/init-beatsaber/commit/a4df869c797de9aa10247b572b53254ea83191e3))
+* my dyslexia ([8879ee4](https://github.com/beat-forge/init-beatsaber/commit/8879ee41e3ef324bb989f71e4af22461c7fd8f90))
+* proper `raw.githubusercontent.com` link ([0e525e8](https://github.com/beat-forge/init-beatsaber/commit/0e525e85a0f358cbfe2366b326cfff1512d3f6b5))
+* regression in functionality vs documentation ([4f3ad6b](https://github.com/beat-forge/init-beatsaber/commit/4f3ad6b784d8c47c856d31f15e71fcbca8dd0869))
+* remove unused github (fix for force release) ([123c72a](https://github.com/beat-forge/init-beatsaber/commit/123c72afd188944f4f533fc3bd88d874d262d6cb))
+* response headers logging ([3a1c7f8](https://github.com/beat-forge/init-beatsaber/commit/3a1c7f8d370c3e4ba5a05ed8449ca2e90350e7ee))
+* slight rewrite, should download properly now. ([68c8af6](https://github.com/beat-forge/init-beatsaber/commit/68c8af6f90af3a1432cf811d485c6316e185e44c))
+* tag subversions ([8879ee4](https://github.com/beat-forge/init-beatsaber/commit/8879ee41e3ef324bb989f71e4af22461c7fd8f90))
+* the final bundle ([1a81a58](https://github.com/beat-forge/init-beatsaber/commit/1a81a58447bbc7a318181aa1afa368ae2abb1fa6))
+* update bundle workflow to fetch full history ([0f2ad2f](https://github.com/beat-forge/init-beatsaber/commit/0f2ad2fc841d9e7c2bbbbc78b26149d3e6b934ae))
+* update dist damn it ([3dda875](https://github.com/beat-forge/init-beatsaber/commit/3dda8757dd3193110a37ae720a5982f8dd3f45ef))
+* update release workflow to include git pull before pushing changes ([b7c1db4](https://github.com/beat-forge/init-beatsaber/commit/b7c1db4f2d7958f9ef6e80c4ff1233ed41c6cf28))
+* update release workflow to use RELEASE_GITHUB_TOKEN ([c7a6cad](https://github.com/beat-forge/init-beatsaber/commit/c7a6cad9f975b661dac33afcdfa0470d34121ee1))
+* update tar extraction to filter only 'data/' paths ([bd649f8](https://github.com/beat-forge/init-beatsaber/commit/bd649f83772e8f77c1dd6219a62402a3be75ccb0))
+* update tar extraction to filter only 'data/' paths and use `version` instead of `versions`. ([6c5ce9c](https://github.com/beat-forge/init-beatsaber/commit/6c5ce9c8ae497572b7ea5dc985ff431549bb9ae8))
+* use native fetch ([30aa353](https://github.com/beat-forge/init-beatsaber/commit/30aa35394eddc842469e2f1ae64ba4b028545c5d))
+* use the `data` directory ([97ab249](https://github.com/beat-forge/init-beatsaber/commit/97ab2494c3e1f3bd8dbaa635ceb13980bfc9fea6))
+* who needs local CI testing right? ([fe1342f](https://github.com/beat-forge/init-beatsaber/commit/fe1342f85f8b763653c3aebce7f02e1c1cdb2e69))
+* witchcraft ([f028bf6](https://github.com/beat-forge/init-beatsaber/commit/f028bf64449eb04d51b3c16a96525203791a1a25))
+
+
+### Performance Improvements
+
+* switch to `bun`! (node runtime, for now.) ([1c4c5ed](https://github.com/beat-forge/init-beatsaber/commit/1c4c5ed7ed22f30bea7f01f82f37693b88d2b6d0))
+
 ## [1.4.12](https://github.com/beat-forge/init-beatsaber/compare/v1.4.11...v1.4.12) (2024-07-18)
 
 
