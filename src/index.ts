@@ -138,8 +138,16 @@ async function run(): Promise<void> {
         : await findManifest(process.cwd())
       if (manifestFile) {
         core.info(`Found manifest.json at ${manifestFile}`)
-        const manifest = JSON.parse(await fs.readFile(manifestFile, 'utf8'))
+
+        let manifestStringData = await fs.readFile(manifestFile, 'utf-8')
+        if (manifestStringData.startsWith('\ufeff')) {
+          core.info('Removing BOM from manifest.json')
+          manifestStringData = manifestStringData.substring(1)
+        }
+
+        const manifest = JSON.parse(manifestStringData)
         requestedVersion = manifest.gameVersion
+
         core.info(`Inferred version: ${requestedVersion}`)
       } else {
         core.error('No manifest.json found and no version specified.')
