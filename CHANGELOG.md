@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.3](https://github.com/beat-forge/init-beatsaber/compare/v1.6.2...v1.6.3) (2024-07-19)
+
+
+### Bug Fixes
+
+* attempting to fix a strange bug with `repo` defaults. ([b44e9e1](https://github.com/beat-forge/init-beatsaber/commit/b44e9e1d72a49b07c9efeb927ee646daabb7d632))
+* I forgot to update the `action.yml`. This should fix a LOT of bugs. ([c5235a9](https://github.com/beat-forge/init-beatsaber/commit/c5235a906fda27129d2381f54d4d60192b3cb115))
+
 ## [1.6.2](https://github.com/beat-forge/init-beatsaber/compare/v1.6.1...v1.6.2) (2024-07-19)
 
 

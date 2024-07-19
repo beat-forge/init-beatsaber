@@ -7,7 +7,11 @@ import { promisify } from 'util'
 
 const streamPipeline = promisify(pipeline)
 
-async function downloadFile(url: string, outputPath: string, token?: string): Promise<void> {
+async function downloadFile(
+  url: string,
+  outputPath: string,
+  token?: string
+): Promise<void> {
   core.info(`Starting download from URL: ${url}`)
   const packageJson = require('../package.json')
   const userAgent = `beat-forge/init-beatsaber@${packageJson.version}`
