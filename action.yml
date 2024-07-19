@@ -1,5 +1,5 @@
-name: "Initialize Beat Saber References"
-description: "A GitHub Action to initialize a stripped modding environment for use in GitHub Actions."
+name: "Initialize Beat Saber Development Environment"
+description: "A GitHub Action to initialize a Beat Saber modding environment"
 author: "BeatForge"
 
 branding:
@@ -11,17 +11,24 @@ inputs:
     description: "The GitHub token to use for downloading the modding environment"
     default: ${{ github.token }}
     required: false
-  repo:
-    description: "The version repository to use"
-    default: "https://github.com/beat-forge/beatsaber-stripped"
-    required: false
   version:
     description: "The BeatSaber version to use"
     required: true
+  manifest:
+    description: "The path to the manifest.json file to infer version if not specified"
+    required: false
   path:
     description: "The location to install the modding environment to, defaults to ./Refs"
     required: false
     default: "./Refs"
+  host:
+    description: "The GitHub host to use, defaults to github.com"
+    required: false
+    default: "github.com"
+  repo:
+    description: "The repository to use (format: owner/repo)"
+    default: "beat-forge/beatsaber-stripped"
+    required: false
 
 runs:
   using: node20

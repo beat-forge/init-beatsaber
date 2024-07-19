@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
 import { promises as fs, createWriteStream } from 'fs'
 import { dirname, join, resolve } from 'path'
+import { pipeline } from 'stream'
 import * as tar from 'tar'
+import { promisify } from 'util'
 
-async function downloadFile(
-  url: string,
-  outputPath: string,
-  token?: string
-): Promise<void> {
+const streamPipeline = promisify(pipeline)
+
+async function downloadFile(url: string, outputPath: string, token?: string): Promise<void> {
   core.info(`Starting download from URL: ${url}`)
   const packageJson = require('../package.json')
   const userAgent = `beat-forge/init-beatsaber@${packageJson.version}`
@@ -36,24 +36,15 @@ async function downloadFile(
   core.debug(`Created directory for output path: ${dirname(outputPath)}`)
 
   const fileStream = createWriteStream(outputPath)
-  const reader = response.body?.getReader()
-
-  if (!reader) {
-    core.error('Failed to get reader from response body')
-    throw new Error('Failed to get reader from response body')
-  }
 
   core.info('Starting to read and write file stream')
-  const pump = async () => {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      if (value) fileStream.write(value)
-    }
-    fileStream.close()
+
+  if (response.body) {
+    await streamPipeline(response.body, fileStream)
+  } else {
+    throw new Error('Response body is null')
   }
 
-  await pump()
   core.info('File downloaded and written successfully')
 }
 
@@ -126,12 +117,12 @@ async function run(): Promise<void> {
     core.info('Initializing Beat Saber modding environment...')
 
     const token = core.getInput('token')
-    let requestedVersion = core.getInput('version')
-    let manifestPath = core.getInput('manifest')
-    let referencesPath = core.getInput('path') || './Refs'
+    const repo = core.getInput('repo')
+    const host = core.getInput('host')
 
-    let repo = core.getInput('repo') || 'beat-forge/beatsaber-stripped'
-    let host = core.getInput('host') || 'github.com'
+    const manifestPath = core.getInput('manifest')
+    const referencesPath = core.getInput('path')
+    let requestedVersion = core.getInput('version')
 
     core.debug(
       `Inputs: version=${requestedVersion}, manifest=${manifestPath}, path=${referencesPath}, repo=${repo}, host=${host}`

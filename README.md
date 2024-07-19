@@ -17,7 +17,7 @@ This will clone the stripped Beat Saber references to the default path `./Refs` 
 
 | Name       | Description                                                                                                                  | Required | Default                                                                             |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------------------------------------- |
-| `token`    | GitHub token for cloning the Beat Saber repository.                                                                          | No       | None                                                                                |
+| `token`    | GitHub token for cloning the Beat Saber repository.                                                                          | No       | `${{ github.token }}`                                                               |
 | `version`  | Version of Beat Saber for the modding environment. If not specified, the action will try to infer it from a `manifest.json`. | No       | None                                                                                |
 | `manifest` | Path to a specific `manifest.json` file for version inference. If not provided, the action will search recursively.          | No       | None                                                                                |
 | `path`     | Path to clone the stripped Beat Saber references to.                                                                         | No       | `./Refs`                                                                            |
