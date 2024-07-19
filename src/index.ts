@@ -6,22 +6,26 @@ import * as tar from 'tar'
 async function downloadFile(
   url: string,
   outputPath: string,
-  token: string
+  token?: string
 ): Promise<void> {
   core.info(`Starting download from URL: ${url}`)
   const packageJson = require('../package.json')
   const userAgent = `beat-forge/init-beatsaber@${packageJson.version}`
-  core.info(`User-Agent: ${userAgent}`)
+  core.debug(`User-Agent: ${userAgent}`)
+
+  const headers: Record<string, string> = {
+    'User-Agent': userAgent
+  }
+  if (token) {
+    headers['Authorization'] = `token ${token}`
+  }
 
   const response = await fetch(url, {
-    headers: {
-      'User-Agent': userAgent,
-      Authorization: `token ${token}`
-    }
+    headers
   })
 
   core.info(`Response status: ${response.status}`)
-  core.info(`Response headers: ${JSON.stringify([...response.headers])}`)
+  core.debug(`Response headers: ${JSON.stringify([...response.headers])}`)
 
   if (!response.ok) {
     core.error(`Failed to download file: ${response.statusText}`)
@@ -29,7 +33,7 @@ async function downloadFile(
   }
 
   await fs.mkdir(dirname(outputPath), { recursive: true })
-  core.info(`Directory created for output path: ${dirname(outputPath)}`)
+  core.debug(`Created directory for output path: ${dirname(outputPath)}`)
 
   const fileStream = createWriteStream(outputPath)
   const reader = response.body?.getReader()
@@ -64,6 +68,7 @@ async function extractTarball(
       file: tarballPath,
       cwd: extractPath
     })
+    core.info('Tarball extraction completed successfully')
   } catch (error) {
     core.error(
       `Failed to extract tarball from ${tarballPath} to ${extractPath}`
@@ -71,7 +76,6 @@ async function extractTarball(
     core.error(`Error details: ${error}`)
     throw error
   }
-  core.info('Tarball extraction completed successfully')
 }
 
 async function moveContents(srcDir: string, destDir: string): Promise<void> {
@@ -79,7 +83,7 @@ async function moveContents(srcDir: string, destDir: string): Promise<void> {
   try {
     await fs.mkdir(destDir, { recursive: true })
     const files = await fs.readdir(srcDir, { withFileTypes: true })
-    core.info(`Files to move: ${files.map(file => file.name).join(', ')}`)
+    core.debug(`Files to move: ${files.map(file => file.name).join(', ')}`)
 
     for (const file of files) {
       const srcPath = join(srcDir, file.name)
@@ -90,17 +94,18 @@ async function moveContents(srcDir: string, destDir: string): Promise<void> {
       } else {
         await fs.rename(srcPath, destPath)
       }
-      core.info(`Moved ${srcPath} to ${destPath}`)
+      core.debug(`Moved ${srcPath} to ${destPath}`)
     }
+    core.info('Content move completed successfully')
   } catch (error) {
     core.error(`Failed to move contents from ${srcDir} to ${destDir}`)
     core.error(`Error details: ${error}`)
     throw error
   }
-  core.info('Content move completed successfully')
 }
 
 async function findManifest(dir: string): Promise<string | null> {
+  core.info(`Searching for manifest.json in directory: ${dir}`)
   const files = await fs.readdir(dir, { withFileTypes: true })
   for (const file of files) {
     const fullPath = join(dir, file.name)
@@ -108,25 +113,27 @@ async function findManifest(dir: string): Promise<string | null> {
       const manifest = await findManifest(fullPath)
       if (manifest) return manifest
     } else if (file.name === 'manifest.json') {
+      core.info(`Found manifest.json at ${fullPath}`)
       return fullPath
     }
   }
+  core.debug(`No manifest.json found in directory: ${dir}`)
   return null
 }
 
 async function run(): Promise<void> {
   try {
-    core.info('Initializing Beat Saber references...')
+    core.info('Initializing Beat Saber modding environment...')
 
-    const token = core.getInput('token', { required: true })
+    const token = core.getInput('token')
     const manifestPath = core.getInput('manifest')
     let requestedVersion = core.getInput('version')
     const referencesPath = core.getInput('path') || './Refs'
     const repo = core.getInput('repo') || 'beat-forge/beatsaber-stripped'
     const host = core.getInput('host') || 'github.com'
 
-    core.info(
-      `Inputs: version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}, manifest=${manifestPath}`
+    core.debug(
+      `Inputs: manifest=${manifestPath}, version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}`
     )
 
     if (!requestedVersion) {
@@ -141,7 +148,7 @@ async function run(): Promise<void> {
 
         let manifestStringData = await fs.readFile(manifestFile, 'utf-8')
         if (manifestStringData.startsWith('\ufeff')) {
-          core.info('Removing BOM from manifest.json')
+          core.debug('Removing BOM from manifest.json')
           manifestStringData = manifestStringData.substring(1)
         }
 
@@ -169,13 +176,13 @@ async function run(): Promise<void> {
     const extractPath = resolve('extract')
     const refsPath = resolve(referencesPath)
 
-    core.info(`Archive URL: ${archiveUrl}`)
-    core.info(`Tarball path: ${tarballPath}`)
-    core.info(`Extract path: ${extractPath}`)
-    core.info(`References path: ${refsPath}`)
-
+    core.info(`Downloading from ${archiveUrl}`)
     await downloadFile(archiveUrl, tarballPath, token)
+
+    core.info(`Extracting tarball to ${extractPath}`)
     await extractTarball(tarballPath, extractPath)
+
+    core.info(`Moving contents to ${refsPath}`)
     await moveContents(
       join(
         extractPath,
