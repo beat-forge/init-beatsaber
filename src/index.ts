@@ -126,14 +126,15 @@ async function run(): Promise<void> {
     core.info('Initializing Beat Saber modding environment...')
 
     const token = core.getInput('token')
-    const manifestPath = core.getInput('manifest')
     let requestedVersion = core.getInput('version')
-    const referencesPath = core.getInput('path') || './Refs'
-    const repo = core.getInput('repo') || 'beat-forge/beatsaber-stripped'
-    const host = core.getInput('host') || 'github.com'
+    let manifestPath = core.getInput('manifest')
+    let referencesPath = core.getInput('path') || './Refs'
+
+    let repo = core.getInput('repo') || 'beat-forge/beatsaber-stripped'
+    let host = core.getInput('host') || 'github.com'
 
     core.debug(
-      `Inputs: manifest=${manifestPath}, version=${requestedVersion}, path=${referencesPath}, repo=${repo}, host=${host}`
+      `Inputs: version=${requestedVersion}, manifest=${manifestPath}, path=${referencesPath}, repo=${repo}, host=${host}`
     )
 
     if (!requestedVersion) {
@@ -162,16 +163,13 @@ async function run(): Promise<void> {
       }
     }
 
-    const [owner, repoName] = repo.split('/')
-    if (!owner || !repoName) {
-      core.error('Repository input is invalid. Expected format {owner}/{repo}.')
-      throw new Error(
-        'Repository input is invalid. Expected format {owner}/{repo}.'
-      )
+    if (repo.split('/').length !== 2) {
+      core.error(`Invalid repo format: ${repo} (expected owner/repo)`)
+      throw new Error(`Invalid repo format: ${repo} (expected owner/repo)`)
     }
 
     const branch = `version/${requestedVersion}`
-    const archiveUrl = `https://${host}/${owner}/${repoName}/archive/refs/heads/${branch}.tar.gz`
+    const archiveUrl = `https://${host}/${repo}/archive/refs/heads/${branch}.tar.gz`
     const tarballPath = resolve('archive.tar.gz')
     const extractPath = resolve('extract')
     const refsPath = resolve(referencesPath)
