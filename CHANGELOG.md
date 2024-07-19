@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/beat-forge/init-beatsaber/compare/v1.6.1...v1.6.2) (2024-07-19)
+
+
+### Bug Fixes
+
+* token is now an optional parameter ([b66159e](https://github.com/beat-forge/init-beatsaber/commit/b66159e21154a7032a08780219c4beb60feff060))
+
 ## [1.6.1](https://github.com/beat-forge/init-beatsaber/compare/v1.6.0...v1.6.1) (2024-07-18)
 
 
