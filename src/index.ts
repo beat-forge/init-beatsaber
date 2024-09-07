@@ -179,8 +179,7 @@ async function run(): Promise<void> {
     await moveContents(
       join(
         extractPath,
-        `beatsaber-stripped-version-${requestedVersion}`,
-        'data'
+        `beatsaber-stripped-version-${requestedVersion}`
       ),
       refsPath
     )
