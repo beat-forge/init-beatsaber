@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.4](https://github.com/beat-forge/init-beatsaber/compare/v1.6.3...v1.6.4) (2024-09-14)
+
+
+### Bug Fixes
+
+* Remove data from path, it's in the actual dir ([3bc2a75](https://github.com/beat-forge/init-beatsaber/commit/3bc2a7522c47a3482943e3f9e102621277dde35d))
+
 ## [1.6.3](https://github.com/beat-forge/init-beatsaber/compare/v1.6.2...v1.6.3) (2024-07-19)
 
 
