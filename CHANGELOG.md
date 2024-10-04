@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.5](https://github.com/beat-forge/init-beatsaber/compare/v1.6.4...v1.6.5) (2024-10-04)
+
+
+### Bug Fixes
+
+* major refactors and fixes to error handling. should improve general reliability of this action in many different circumstances. ([426db66](https://github.com/beat-forge/init-beatsaber/commit/426db6688880aa2b508367fcf26b2db29244970b))
+
 ## [1.6.4](https://github.com/beat-forge/init-beatsaber/compare/v1.6.3...v1.6.4) (2024-09-14)
 
 
