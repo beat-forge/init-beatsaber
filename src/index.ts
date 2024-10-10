@@ -20,13 +20,13 @@ async function downloadFile(
   core.info(`Starting download from URL: ${url}`)
 
   // Read package.json to get the version
-  const packageJsonPath = resolve(__dirname, '../package.json')
+  const packageJsonPath = resolve(__dirname, '..', 'package.json')
   let packageJsonContent: string
   try {
     packageJsonContent = await fsPromises.readFile(packageJsonPath, 'utf-8')
   } catch (error) {
-    core.error(`Failed to read package.json from ${packageJsonPath}`)
-    throw new Error(`Failed to read package.json: ${error}`)
+    core.warning(`Failed to read package.json from ${packageJsonPath}. Using default version.`)
+    packageJsonContent = JSON.stringify({ version: '1.0.0' })
   }
 
   let packageJson: { version: string }
@@ -214,7 +214,6 @@ async function run(): Promise<void> {
     }
 
     let version = requestedVersion
-    // If no version specified, attempt to infer from manifest
     if (!refInput && !version) {
       core.info(
         'No ref or version specified. Attempting to infer version from manifest.json...'
@@ -276,7 +275,6 @@ async function run(): Promise<void> {
 
     const archiveUrl = `https://${host}/${repo}/archive/${ref}.tar.gz`
 
-    // Create temporary directory
     tmpDir = await fsPromises.mkdtemp(join(os.tmpdir(), 'action-'))
 
     const tarballPath = join(tmpDir, 'archive.tar.gz')
@@ -300,7 +298,6 @@ async function run(): Promise<void> {
       core.setFailed(`Action failed with unknown error: ${error}`)
     }
   } finally {
-    // Clean up temporary files
     if (tmpDir) {
       try {
         await fsPromises.rm(tmpDir, { recursive: true, force: true })
