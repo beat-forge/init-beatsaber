@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.6](https://github.com/beat-forge/init-beatsaber/compare/v1.6.5...v1.6.6) (2024-10-10)
+
+
+### Bug Fixes
+
+* handle missing package.json gracefully ([f2f2c84](https://github.com/beat-forge/init-beatsaber/commit/f2f2c841e112d59e986e3fe0d2e57cb1a9d71289))
+
 ## [1.6.5](https://github.com/beat-forge/init-beatsaber/compare/v1.6.4...v1.6.5) (2024-10-04)
 
 
